@@ -6,6 +6,7 @@ module.exports = function (api) {
             [
                 "module-resolver",
                 {
+                    root: ["./src"],
                     alias: {
                         "@": "./src",
                         "@core": "./src/core",
@@ -16,8 +17,10 @@ module.exports = function (api) {
                         // Feature-specific aliases
                         "@auth": "./src/features/auth",
                         "@lists": "./src/features/lists"
-                    }
-                }
+                    },
+                    extensions: ['.ts', '.tsx', '.js', '.jsx', '.json'],
+                },
+                "react-native-reanimated/plugin",
             ]
         ]
     };

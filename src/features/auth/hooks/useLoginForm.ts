@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import {
     validateEmail,
     validatePasswordNotEmpty,
@@ -66,14 +66,18 @@ export const useLoginForm = () => {
     /**
      * Maneja el envío del formulario
      * @param onSuccess - Callback a ejecutar si la validación es exitosa
+     * @param onError - Callback opcional a ejecutar si hay errores de validación
      */
     const handleSubmit = useCallback(
-        (onSuccess: (data: LoginFormData) => void) => {
+        (
+            onSuccess: (data: LoginFormData) => void,
+            onError?: (errors: ValidationErrors) => void
+        ) => {
             if (validateForm()) {
                 onSuccess(formData);
-            }
+            } 
         },
-        [formData, validateForm]
+        [formData, validateForm, errors]
     );
 
     /**
@@ -84,9 +88,12 @@ export const useLoginForm = () => {
         setErrors({});
     }, []);
 
+
+
     return {
         formData,
         errors,
+        setErrors,
         handleEmailChange,
         handlePasswordChange,
         handleSubmit,

@@ -1,3 +1,4 @@
+import { AppProviders } from "@/core/providers/AppProviders";
 import { Stack } from "expo-router";
 
 /**
@@ -5,14 +6,16 @@ import { Stack } from "expo-router";
  */
 export default function RootLayout() {
   return (
-    <Stack
-      screenOptions={{
-        headerShown: false,
-        contentStyle: { backgroundColor: "#fff" },
-      }}
-    >
-      <Stack.Screen name="index" />
-      <Stack.Screen name="auth/login" />
-    </Stack>
+    <AppProviders>
+      <Stack
+        screenOptions={{
+          headerShown: false,
+          contentStyle: { backgroundColor: "#fff" },
+        }}
+      >
+        <Stack.Screen name="index" />
+        <Stack.Screen name="auth/login" />
+      </Stack>
+    </AppProviders>
   );
 }

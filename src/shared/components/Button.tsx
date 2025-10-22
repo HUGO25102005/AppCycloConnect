@@ -9,6 +9,9 @@ import {
 interface ButtonProps extends TouchableOpacityProps {
   title: string;
   variant?: "primary" | "secondary";
+  backgroundColor?: string;
+  textColor?: string;
+  icon?: React.ReactNode;
 }
 
 /**
@@ -18,6 +21,9 @@ export const Button: React.FC<ButtonProps> = ({
   title,
   variant = "primary",
   disabled,
+  backgroundColor,
+  textColor,
+  icon,
   ...touchableProps
 }) => {
   return (
@@ -26,6 +32,7 @@ export const Button: React.FC<ButtonProps> = ({
         styles.button,
         variant === "primary" ? styles.buttonPrimary : styles.buttonSecondary,
         disabled && styles.buttonDisabled,
+        backgroundColor && { backgroundColor },
       ]}
       activeOpacity={0.8}
       disabled={disabled}
@@ -38,9 +45,10 @@ export const Button: React.FC<ButtonProps> = ({
             ? styles.buttonTextPrimary
             : styles.buttonTextSecondary,
           disabled && styles.buttonTextDisabled,
+          textColor && { color: textColor },
         ]}
       >
-        {title}
+        {icon} {title}
       </Text>
     </TouchableOpacity>
   );

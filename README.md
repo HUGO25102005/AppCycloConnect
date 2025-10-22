@@ -1,4 +1,4 @@
-# 📱 MyMusic — Tu música, siempre contigo
+# 📱 CycloConnect — Renta de Biiclicletas
 
 <!-- Aplicación móvil de streaming y gestión de música personal -->
 

@@ -8,7 +8,8 @@ import {
   ScrollView,
   Alert,
 } from "react-native";
-import { Input, Button } from "@shared/components";
+import { FontAwesome } from "@expo/vector-icons";
+import { Input, Button, LogoApp } from "@shared/components";
 import { useLoginForm } from "@auth/hooks/useLoginForm";
 import type { LoginFormData } from "@auth/types";
 
@@ -19,23 +20,39 @@ export const LoginScreen: React.FC = () => {
   const {
     formData,
     errors,
+    setErrors,
     handleEmailChange,
     handlePasswordChange,
     handleSubmit,
   } = useLoginForm();
 
-  /**
-   * Callback cuando el formulario es válido
-   */
   const onLoginSuccess = (data: LoginFormData) => {
-    Alert.alert(
-      "¡Éxito!",
-      `Login exitoso\n\nEmail: ${data.email}\nPassword: ${"*".repeat(
-        data.password.length
-      )}`,
-      [{ text: "OK" }]
-    );
+    Alert.alert("¡Éxito!", `Login exitoso`, [{ text: "OK" }]);
   };
+
+  const onLoginError = (validationErrors: typeof errors) => {
+    const errorMessages: string[] = [];
+
+    if (validationErrors.email) {
+      errorMessages.push(`📧 ${validationErrors.email}`);
+    }
+
+    if (validationErrors.password) {
+      errorMessages.push(`🔒 ${validationErrors.password}`);
+    }
+
+    Alert.alert("Error de Validación", errorMessages.join("\n\n"), [
+      {
+        text: "Entendido",
+      },
+    ]);
+  };
+
+  //   useEffect(() => {
+  //     if (errors.email || errors.password) {
+  //       onLoginError(errors);
+  //     }
+  //   }, [errors]);
 
   return (
     <KeyboardAvoidingView
@@ -49,15 +66,19 @@ export const LoginScreen: React.FC = () => {
       >
         {/* Header */}
         <View style={styles.header}>
-          <View style={styles.logoContainer}>
-            <Text style={styles.logoEmoji}>🎵</Text>
-          </View>
-          <Text style={styles.title}>MyMusic</Text>
-          <Text style={styles.subtitle}>Inicia sesión en tu cuenta</Text>
+          <LogoApp
+            styleConteiner={styles.logoContainer}
+            styleImage={styles.logo}
+          />
+          {/* <Text style={styles.title}>CycloConnect</Text> */}
         </View>
 
         {/* Form */}
         <View style={styles.form}>
+          <View style={styles.titleContainer}>
+            <Text style={styles.title}>Inicio de sesión</Text>
+            {/* <Text style={styles.subtitle}>Inicia sesión en tu cuenta</Text> */}
+          </View>
           <Input
             label="Email"
             placeholder="correo@ejemplo.com"
@@ -78,8 +99,18 @@ export const LoginScreen: React.FC = () => {
 
           <View style={styles.buttonContainer}>
             <Button
-              title="Iniciar Sesión"
+              title="Login"
               onPress={() => handleSubmit(onLoginSuccess)}
+              icon={<FontAwesome name={"user"} size={20} />}
+            />
+          </View>
+          <View style={styles.buttonContainer}>
+            <Button
+              title="Login with Google"
+              onPress={() => handleSubmit(onLoginSuccess)}
+              backgroundColor="#DB4437"
+              textColor="#FFFFFF"
+              icon={<FontAwesome name={"google"} size={20} />}
             />
           </View>
         </View>
@@ -105,23 +136,29 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     justifyContent: "space-between",
     paddingHorizontal: 24,
-    paddingVertical: 40,
+    paddingVertical: 70,
   },
   header: {
     alignItems: "center",
     marginTop: 40,
   },
   logoContainer: {
-    width: 80,
-    height: 80,
+    width: 100,
+    height: 100,
     borderRadius: 40,
     backgroundColor: "#007AFF",
     justifyContent: "center",
     alignItems: "center",
     marginBottom: 16,
   },
-  logoEmoji: {
-    fontSize: 40,
+  logo: {
+    width: 150,
+    height: 150,
+    borderRadius: 75,
+  },
+  titleContainer: {
+    alignItems: "center",
+    marginTop: 16,
   },
   title: {
     fontSize: 32,
@@ -134,10 +171,14 @@ const styles = StyleSheet.create({
     color: "#666",
   },
   form: {
-    marginTop: 40,
+    marginTop: 20,
   },
   buttonContainer: {
     marginTop: 8,
+  },
+  googleButtonContainer: {
+    color: "white",
+    backgroundColor: "red",
   },
   footer: {
     alignItems: "center",
