@@ -1,6 +1,33 @@
 {
-  "extends": "expo/tsconfig.base",
-  "compilerOptions": {
-    "strict": true
-  }
+    "extends": "expo/tsconfig.base",
+    "compilerOptions": {
+        "strict": true,
+        "baseUrl": ".",
+        "paths": {
+            "@/*": [
+                "src/*"
+            ],
+            "@core/*": [
+                "src/core/*"
+            ],
+            "@features/*": [
+                "src/features/*"
+            ],
+            "@shared/*": [
+                "src/shared/*"
+            ],
+            "@assets/*": [
+                "src/assets/*"
+            ],
+            "@app/*": [
+                "src/app/*"
+            ],
+            "@auth/*": [
+                "src/features/auth/*"
+            ],
+            "@lists/*": [
+                "src/features/lists/*"
+            ]
+        }
+    }
 }
