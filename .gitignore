@@ -42,3 +42,6 @@ yarn-error.*
 
 #cursor
 .cursor/
+
+# Reactotron
+.reactotron.config.local.*

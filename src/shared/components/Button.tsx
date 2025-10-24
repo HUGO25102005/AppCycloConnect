@@ -63,12 +63,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: 24,
   },
   buttonPrimary: {
-    backgroundColor: "#007AFF",
+    backgroundColor: "#3A015C", // Color morado por defecto (primario del theme)
   },
   buttonSecondary: {
     backgroundColor: "#fff",
     borderWidth: 1,
-    borderColor: "#007AFF",
+    borderColor: "#3A015C",
   },
   buttonDisabled: {
     backgroundColor: "#ccc",
@@ -81,7 +81,7 @@ const styles = StyleSheet.create({
     color: "#fff",
   },
   buttonTextSecondary: {
-    color: "#007AFF",
+    color: "#3A015C",
   },
   buttonTextDisabled: {
     color: "#999",

@@ -1,21 +1,19 @@
+// Inicializar Reactotron ANTES que todo lo demás (solo en desarrollo)
+if (__DEV__) {
+  require("@/core/config/reactotron.config");
+}
+
 import { AppProviders } from "@/core/providers/AppProviders";
-import { Stack } from "expo-router";
+import { ThemedStack } from "./ThemedStack";
+
 
 /**
- * Root layout usando expo-router Stack
+ * Root layout usando expo-router Stack con theme global
  */
 export default function RootLayout() {
   return (
     <AppProviders>
-      <Stack
-        screenOptions={{
-          headerShown: false,
-          contentStyle: { backgroundColor: "#fff" },
-        }}
-      >
-        <Stack.Screen name="index" />
-        <Stack.Screen name="auth/login" />
-      </Stack>
+      <ThemedStack />
     </AppProviders>
   );
 }

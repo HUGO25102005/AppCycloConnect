@@ -27,7 +27,11 @@
             ],
             "@lists/*": [
                 "src/features/lists/*"
+            ],
+            "@theme/*": [
+                "src/features/theme/*"
             ]
+
         }
     }
 }

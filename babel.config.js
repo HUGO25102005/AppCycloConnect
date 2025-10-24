@@ -16,11 +16,11 @@ module.exports = function (api) {
                         "@app": "./src/app",
                         // Feature-specific aliases
                         "@auth": "./src/features/auth",
-                        "@lists": "./src/features/lists"
+                        "@lists": "./src/features/lists",
+                        "@theme": "./src/features/theme",
                     },
                     extensions: ['.ts', '.tsx', '.js', '.jsx', '.json'],
-                },
-                "react-native-reanimated/plugin",
+                }
             ]
         ]
     };

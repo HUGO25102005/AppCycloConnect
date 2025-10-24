@@ -5,14 +5,16 @@ import {
     validatePasswordRules,
 } from '@shared/utils';
 import type { LoginFormData, ValidationErrors } from '@auth/types';
+import { useForm } from '@/shared/hooks';
+import { useAuth } from './useAuth';
 
 /**
  * Hook personalizado para manejar el formulario de login con validaciones
  */
 export const useLoginForm = () => {
-    const [formData, setFormData] = useState<LoginFormData>({
-        email: '',
-        password: '',
+    const { email, password, onInputChange, onResetForm } = useForm<LoginFormData>({
+        email: 'rodriguezjosef@gmail.com',
+        password: 'H12345678.a',
     });
 
     const [errors, setErrors] = useState<ValidationErrors>({});
@@ -21,7 +23,7 @@ export const useLoginForm = () => {
      * Maneja cambios en el campo email
      */
     const handleEmailChange = useCallback((text: string) => {
-        setFormData((prev) => ({ ...prev, email: text }));
+        onInputChange({ name: 'email', value: text });
         // Limpiar error cuando el usuario empieza a escribir
         setErrors((prev) => ({ ...prev, email: undefined }));
     }, []);
@@ -30,7 +32,7 @@ export const useLoginForm = () => {
      * Maneja cambios en el campo password
      */
     const handlePasswordChange = useCallback((text: string) => {
-        setFormData((prev) => ({ ...prev, password: text }));
+        onInputChange({ name: 'password', value: text });
         // Limpiar error cuando el usuario empieza a escribir
         setErrors((prev) => ({ ...prev, password: undefined }));
     }, []);
@@ -43,17 +45,17 @@ export const useLoginForm = () => {
         const newErrors: ValidationErrors = {};
 
         // Validar email
-        if (!formData.email.trim()) {
+        if (!email.trim()) {
             newErrors.email = 'El email es requerido';
-        } else if (!validateEmail(formData.email)) {
+        } else if (!validateEmail(email)) {
             newErrors.email = 'El email no es válido';
         }
 
         // Validar password
-        if (!validatePasswordNotEmpty(formData.password)) {
+        if (!validatePasswordNotEmpty(password)) {
             newErrors.password = 'El password es requerido';
         } else {
-            const passwordValidation = validatePasswordRules(formData.password);
+            const passwordValidation = validatePasswordRules(password);
             if (!passwordValidation.isValid) {
                 newErrors.password = passwordValidation.error;
             }
@@ -61,7 +63,7 @@ export const useLoginForm = () => {
 
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
-    }, [formData]);
+    }, [email, password]);
 
     /**
      * Maneja el envío del formulario
@@ -74,26 +76,28 @@ export const useLoginForm = () => {
             onError?: (errors: ValidationErrors) => void
         ) => {
             if (validateForm()) {
-                onSuccess(formData);
+                onSuccess({ email, password });
+                return;
             } 
+            onError?.(errors);
         },
-        [formData, validateForm, errors]
+        [email, password, validateForm, errors]
     );
 
     /**
      * Resetea el formulario
      */
     const resetForm = useCallback(() => {
-        setFormData({ email: '', password: '' });
+        onResetForm();
         setErrors({});
     }, []);
 
 
 
     return {
-        formData,
+        email,
+        password,
         errors,
-        setErrors,
         handleEmailChange,
         handlePasswordChange,
         handleSubmit,

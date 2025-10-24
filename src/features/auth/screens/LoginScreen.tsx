@@ -12,47 +12,37 @@ import { FontAwesome } from "@expo/vector-icons";
 import { Input, Button, LogoApp } from "@shared/components";
 import { useLoginForm } from "@auth/hooks/useLoginForm";
 import type { LoginFormData } from "@auth/types";
+import { useAuth } from "../hooks/useAuth";
+import { useAppTheme } from "@/features/theme";
 
 /**
  * Pantalla de Login con validaciones y layout usando Flexbox
  */
 export const LoginScreen: React.FC = () => {
+  const theme = useAppTheme();
+  const { checkingAuthentication, googleLogin, logout } = useAuth();
   const {
-    formData,
+    email,
+    password,
     errors,
-    setErrors,
     handleEmailChange,
     handlePasswordChange,
     handleSubmit,
   } = useLoginForm();
 
   const onLoginSuccess = (data: LoginFormData) => {
+    checkingAuthentication();
     Alert.alert("¡Éxito!", `Login exitoso`, [{ text: "OK" }]);
   };
-
-  const onLoginError = (validationErrors: typeof errors) => {
-    const errorMessages: string[] = [];
-
-    if (validationErrors.email) {
-      errorMessages.push(`📧 ${validationErrors.email}`);
-    }
-
-    if (validationErrors.password) {
-      errorMessages.push(`🔒 ${validationErrors.password}`);
-    }
-
-    Alert.alert("Error de Validación", errorMessages.join("\n\n"), [
-      {
-        text: "Entendido",
-      },
-    ]);
+  const onGoogleSignIn = () => {
+    googleLogin();
+    console.log("onGoogleSignIn");
+  };
+  const onLogout = () => {
+    logout();
   };
 
-  //   useEffect(() => {
-  //     if (errors.email || errors.password) {
-  //       onLoginError(errors);
-  //     }
-  //   }, [errors]);
+  const styles = createStyles(theme);
 
   return (
     <KeyboardAvoidingView
@@ -82,7 +72,7 @@ export const LoginScreen: React.FC = () => {
           <Input
             label="Email"
             placeholder="correo@ejemplo.com"
-            value={formData.email}
+            value={email}
             onChangeText={handleEmailChange}
             error={errors.email}
             keyboardType="email-address"
@@ -91,7 +81,7 @@ export const LoginScreen: React.FC = () => {
           <Input
             label="Password"
             placeholder="Ingresa tu contraseña"
-            value={formData.password}
+            value={password}
             onChangeText={handlePasswordChange}
             error={errors.password}
             secureTextEntry
@@ -102,12 +92,13 @@ export const LoginScreen: React.FC = () => {
               title="Login"
               onPress={() => handleSubmit(onLoginSuccess)}
               icon={<FontAwesome name={"user"} size={20} />}
+              backgroundColor={theme.colors.primary}
             />
           </View>
           <View style={styles.buttonContainer}>
             <Button
               title="Login with Google"
-              onPress={() => handleSubmit(onLoginSuccess)}
+              onPress={onGoogleSignIn}
               backgroundColor="#DB4437"
               textColor="#FFFFFF"
               icon={<FontAwesome name={"google"} size={20} />}
@@ -127,69 +118,73 @@ export const LoginScreen: React.FC = () => {
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#f8f9fa",
-  },
-  scrollContent: {
-    flexGrow: 1,
-    justifyContent: "space-between",
-    paddingHorizontal: 24,
-    paddingVertical: 70,
-  },
-  header: {
-    alignItems: "center",
-    marginTop: 40,
-  },
-  logoContainer: {
-    width: 100,
-    height: 100,
-    borderRadius: 40,
-    backgroundColor: "#007AFF",
-    justifyContent: "center",
-    alignItems: "center",
-    marginBottom: 16,
-  },
-  logo: {
-    width: 150,
-    height: 150,
-    borderRadius: 75,
-  },
-  titleContainer: {
-    alignItems: "center",
-    marginTop: 16,
-  },
-  title: {
-    fontSize: 32,
-    fontWeight: "bold",
-    color: "#1a1a1a",
-    marginBottom: 8,
-  },
-  subtitle: {
-    fontSize: 16,
-    color: "#666",
-  },
-  form: {
-    marginTop: 20,
-  },
-  buttonContainer: {
-    marginTop: 8,
-  },
-  googleButtonContainer: {
-    color: "white",
-    backgroundColor: "red",
-  },
-  footer: {
-    alignItems: "center",
-    marginTop: 24,
-  },
-  footerText: {
-    fontSize: 14,
-    color: "#666",
-  },
-  footerLink: {
-    color: "#007AFF",
-    fontWeight: "600",
-  },
-});
+// Función para crear estilos dinámicos basados en el theme
+const createStyles = (theme: ReturnType<typeof useAppTheme>) =>
+  StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: theme.colors.bg,
+    },
+    scrollContent: {
+      flexGrow: 1,
+      justifyContent: "space-between",
+      paddingHorizontal: theme.spacing(6),
+      paddingVertical: theme.spacing(17.5),
+    },
+    header: {
+      alignItems: "center",
+      marginTop: theme.spacing(10),
+    },
+    logoContainer: {
+      width: 100,
+      height: 100,
+      borderRadius: theme.radius.lg,
+      backgroundColor: theme.colors.primary,
+      justifyContent: "center",
+      alignItems: "center",
+      marginBottom: theme.spacing(4),
+    },
+    logo: {
+      width: 150,
+      height: 150,
+      borderRadius: 75,
+    },
+    titleContainer: {
+      alignItems: "center",
+      marginTop: theme.spacing(4),
+    },
+    title: {
+      fontSize: theme.typography.title + 12,
+      fontWeight: "bold",
+      color: theme.colors.text,
+      marginBottom: theme.spacing(2),
+    },
+    subtitle: {
+      fontSize: theme.typography.body,
+      color: theme.colors.text,
+      opacity: 0.6,
+    },
+    form: {
+      marginTop: theme.spacing(5),
+    },
+    buttonContainer: {
+      marginTop: theme.spacing(2),
+    },
+    googleButtonContainer: {
+      color: "white",
+      backgroundColor: "red",
+    },
+    footer: {
+      alignItems: "center",
+      marginTop: theme.spacing(6),
+    },
+    footerText: {
+      fontSize: 14,
+      color: theme.colors.text,
+      opacity: 0.6,
+    },
+    footerLink: {
+      color: theme.colors.primary,
+      fontWeight: "600",
+    },
+  });
