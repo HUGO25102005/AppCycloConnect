@@ -1,24 +1,32 @@
 import { useDispatch } from 'react-redux';
 import type { AppDispatch } from '@/store';
-import { checkingAuthenticationThunk, logoutThunk, startGoogleSignInThunk } from '../store/thunks';
+import { checkingAuthenticationThunk, logoutThunk } from '../store/thunks';
+import { useGoogleSignIn } from './useGoogleSignIn';
 
 export const useAuth = () => {
-
     const dispatch = useDispatch<AppDispatch>();
+    const { promptGoogleSignIn, isReady } = useGoogleSignIn();
 
     const checkingAuthentication = () => {
         dispatch(checkingAuthenticationThunk());
-    }
-    const googleLogin = () => {
-        dispatch(startGoogleSignInThunk());
-    }
+    };
+
+    const googleSignIn = async () => {
+        try {
+            await promptGoogleSignIn();
+        } catch (error) {
+            console.error('Error al iniciar Google Sign In:', error);
+        }
+    };
+
     const logout = () => {
         dispatch(logoutThunk());
-    }
+    };
 
     return {
         checkingAuthentication,
-        googleLogin,
+        googleSignIn,
+        isGoogleReady: isReady,
         logout,
-    }
-}
+    };
+};

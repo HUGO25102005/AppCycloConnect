@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { startGoogleSignInThunk } from '../thunks';
 
 interface AuthState {
     status: 'checking' | 'authenticated' | 'not-authenticated';
@@ -41,6 +42,25 @@ const authSlice = createSlice({
         checkingCredentials: (state) => {
             state.status = 'checking';
         },
+    },
+    extraReducers: (builder) => {
+        builder
+            .addCase(startGoogleSignInThunk.pending, (state) => {
+                state.status = 'checking';
+                state.errorMessage = null;
+            })
+            .addCase(startGoogleSignInThunk.fulfilled, (state, action) => {
+                state.status = 'authenticated';
+                state.uid = action.payload.uid;
+                state.email = action.payload.email;
+                state.displayName = action.payload.displayName;
+                state.photoURL = action.payload.photoURL;
+                state.errorMessage = null;
+            })
+            .addCase(startGoogleSignInThunk.rejected, (state, action) => {
+                state.status = 'not-authenticated';
+                state.errorMessage = action.error.message || 'Error en Google Sign In';
+            });
     }
 });
 

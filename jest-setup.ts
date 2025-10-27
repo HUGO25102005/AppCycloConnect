@@ -33,3 +33,32 @@ jest.mock('react-redux', () => ({
 jest.mock('@react-native-async-storage/async-storage', () =>
     require('@react-native-async-storage/async-storage/jest/async-storage-mock')
 );
+
+// Mock de Firebase App
+jest.mock('firebase/app', () => ({
+    initializeApp: jest.fn(),
+}));
+
+// Mock de Firebase Auth
+jest.mock('firebase/auth', () => ({
+    initializeAuth: jest.fn(),
+    getAuth: jest.fn(),
+    signInWithCredential: jest.fn(),
+    signOut: jest.fn(),
+    GoogleAuthProvider: jest.fn(),
+    onAuthStateChanged: jest.fn(),
+    getReactNativePersistence: jest.fn(),
+}));
+
+// Mock de Firebase Firestore
+jest.mock('firebase/firestore', () => ({
+    getFirestore: jest.fn(),
+}));
+
+jest.mock('expo-auth-session/providers/google', () => ({
+    useAuthRequest: jest.fn(() => [
+        null,
+        null,
+        jest.fn(),
+    ]),
+}));

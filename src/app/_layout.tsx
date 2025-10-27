@@ -4,7 +4,7 @@ if (__DEV__) {
 }
 
 import { AppProviders } from "@/core/providers/AppProviders";
-import { ThemedStack } from "./ThemedStack";
+import ThemedStack from "./ThemedStack";
 
 
 /**

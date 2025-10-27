@@ -5,7 +5,7 @@ import { useAppTheme } from "@/features/theme";
  * Stack navigator con theme aplicado
  * Debe estar dentro de AppProviders para acceder a Redux
  */
-export function ThemedStack() {
+export default function ThemedStack() {
   const theme = useAppTheme();
 
   return (

@@ -30,6 +30,9 @@
             ],
             "@theme/*": [
                 "src/features/theme/*"
+            ],
+            "@firebase/*": [
+                "src/firebase/*"
             ]
 
         }

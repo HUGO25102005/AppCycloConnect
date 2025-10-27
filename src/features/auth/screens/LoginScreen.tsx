@@ -15,12 +15,10 @@ import type { LoginFormData } from "@auth/types";
 import { useAuth } from "../hooks/useAuth";
 import { useAppTheme } from "@/features/theme";
 
-/**
- * Pantalla de Login con validaciones y layout usando Flexbox
- */
 export const LoginScreen: React.FC = () => {
   const theme = useAppTheme();
-  const { checkingAuthentication, googleLogin, logout } = useAuth();
+  const { checkingAuthentication, googleSignIn, isGoogleReady, logout } =
+    useAuth();
   const {
     email,
     password,
@@ -34,9 +32,8 @@ export const LoginScreen: React.FC = () => {
     checkingAuthentication();
     Alert.alert("¡Éxito!", `Login exitoso`, [{ text: "OK" }]);
   };
-  const onGoogleSignIn = () => {
-    googleLogin();
-    console.log("onGoogleSignIn");
+  const onGoogleSignIn = async () => {
+    await googleSignIn();
   };
   const onLogout = () => {
     logout();
@@ -99,6 +96,7 @@ export const LoginScreen: React.FC = () => {
             <Button
               title="Login with Google"
               onPress={onGoogleSignIn}
+              disabled={!isGoogleReady}
               backgroundColor="#DB4437"
               textColor="#FFFFFF"
               icon={<FontAwesome name={"google"} size={20} />}
