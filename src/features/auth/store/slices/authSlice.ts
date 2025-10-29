@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { startGoogleSignInThunk } from '../thunks';
+// Import directo para evitar ciclo de dependencias (thunks usa slices/index)
+import { startGoogleSignInThunk } from '../thunks/authThunks';
 
 interface AuthState {
     status: 'checking' | 'authenticated' | 'not-authenticated';

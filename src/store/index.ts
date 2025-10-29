@@ -12,7 +12,7 @@ import {
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { combineReducers } from "@reduxjs/toolkit";
 import { appStarted } from "./appStarted";
-import authReducer from "@auth/store/slices/auth.slice";
+import authReducer from "@auth/store/slices/authSlice";
 import themeReducer from "@theme/store/themeSlice";
 import reactotron from "@/core/config/reactotron.config";
 

@@ -15,6 +15,9 @@ const config = {
         '^@auth/(.*)$': '<rootDir>/src/features/auth/$1',
         '^@lists/(.*)$': '<rootDir>/src/features/lists/$1',
         '^@theme/(.*)$': '<rootDir>/src/features/theme/$1',
+        '^@services$': '<rootDir>/src/services',
+        // '^@services/(.*)$': '<rootDir>/src/services/$1',
+        '^@store/(.*)$': '<rootDir>/src/store/$1',
     },
     collectCoverageFrom: [
         'src/**/*.{ts,tsx}',

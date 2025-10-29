@@ -31,10 +31,15 @@
             "@theme/*": [
                 "src/features/theme/*"
             ],
-            "@firebase/*": [
-                "src/firebase/*"
+            "@services": [
+                "src/services"
+            ],
+            "@services/*": [
+                "src/services/*"
+            ],
+            "@store/*": [
+                "src/store/*"
             ]
-
         }
     }
 }

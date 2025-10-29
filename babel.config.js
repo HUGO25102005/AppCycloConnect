@@ -18,7 +18,8 @@ module.exports = function (api) {
                         "@auth": "./src/features/auth",
                         "@lists": "./src/features/lists",
                         "@theme": "./src/features/theme",
-                        "@firebase": "./src/firebase",
+                        "@services": "./src/services",
+                        "@store": "./src/store",
                     },
                     extensions: ['.ts', '.tsx', '.js', '.jsx', '.json'],
                 }

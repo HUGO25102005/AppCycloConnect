@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '@/store';
-import { useGoogleAuth } from '@/firebase/googleAuthProvider';
-import { startGoogleSignInThunk } from '../store/thunks';
+import { useGoogleAuth } from '@services';
+import { startGoogleSignInThunk } from '../store';
 
 /**
  * Hook que combina expo-auth-session con Redux thunks

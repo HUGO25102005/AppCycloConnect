@@ -1,6 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { checkingCredentials, logout } from "../slices";
-import { authenticateWithGoogle, logoutFirebase } from "@/firebase/providers";
+// Import directo para evitar ciclo de dependencias (slices usa thunks/index)
+import { checkingCredentials, logout } from "../slices/authSlice";
+import { authenticateWithGoogle, logoutFirebase } from "@services/providers";
 
 /**
  * Thunk para iniciar sesión con Google

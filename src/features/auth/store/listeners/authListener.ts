@@ -1,6 +1,6 @@
 import { onAuthStateChanged, Unsubscribe } from 'firebase/auth';
-import { FirebaseAuth } from '@/firebase/config';
-import { login, logout } from '../slices/auth.slice';
+import { FirebaseAuth } from '@services/config';
+import { login, logout } from '../slices/authSlice';
 import { AppDispatch } from '@/store';
 
 /**
